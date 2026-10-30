@@ -18,11 +18,11 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Build Chicken Fork App
+      - name: Build VNC Viewer App
         run: |
           xcodebuild \
             -project cotvnc/ChickenFork.xcodeproj \
-            -scheme "Chicken Fork" \
+            -scheme "VNC Viewer" \
             -configuration Deployment \
             -derivedDataPath ./DerivedData \
             ONLY_ACTIVE_ARCH=NO \
@@ -37,13 +37,13 @@ jobs:
         run: |
           mkdir -p dist
 
-          # Locate built Chicken Fork.app bundle
-          APP_PATH=$(find ./DerivedData -name "Chicken Fork.app" -type d | head -n 1)
+          # Locate the built app bundle
+          APP_PATH=$(find ./DerivedData -name "VNC Viewer.app" -type d | head -n 1)
           if [ -z "$APP_PATH" ]; then
-            echo "Error: Chicken Fork.app not found in DerivedData!"
+            echo "Error: VNC Viewer.app not found in DerivedData!"
             exit 1
           fi
-          echo "Found Chicken Fork.app at: $APP_PATH"
+          echo "Found VNC Viewer.app at: $APP_PATH"
 
           # Apply ad-hoc code signature with Hardened Runtime and entitlements
           echo "=== Applying Ad-Hoc Code Signature to App Bundle ==="
@@ -66,13 +66,13 @@ jobs:
           rm -rf "$STAGING_DIR"
           mkdir -p "$STAGING_DIR"
 
-          # Copy Chicken Fork.app and create Applications symlink for drag-and-drop install
+          # Copy the app and create the Applications symlink for drag-and-drop install
           cp -R "$APP_PATH" "$STAGING_DIR/"
           ln -s /Applications "$STAGING_DIR/Applications"
 
           echo "Creating compressed UDZO DMG at $DMG_PATH..."
           hdiutil create \
-            -volname "Chicken Fork" \
+            -volname "VNC Viewer" \
             -srcfolder "$STAGING_DIR" \
             -ov \
             -format UDZO \

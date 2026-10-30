@@ -25,11 +25,11 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Build Chicken Fork App
+      - name: Build VNC Viewer App
         run: |
           xcodebuild \
             -project cotvnc/ChickenFork.xcodeproj \
-            -scheme "Chicken Fork" \
+            -scheme "VNC Viewer" \
             -configuration Deployment \
             -derivedDataPath ./DerivedData \
             ONLY_ACTIVE_ARCH=NO \

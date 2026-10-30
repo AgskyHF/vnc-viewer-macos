@@ -273,7 +273,7 @@
 		7FC6DF6E05C31B0D0028A970 /* ServerFromRendezvous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerFromRendezvous.m; sourceTree = "<group>"; };
 		7FD35C1806CC583A00648090 /* ProfileDataManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ProfileDataManager.h; sourceTree = "<group>"; };
 		7FD35C1906CC583A00648090 /* ProfileDataManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ProfileDataManager.m; sourceTree = "<group>"; };
-		7FD66F5805E9E2B500229E5C /* Chicken Fork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chicken Fork.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FD66F5805E9E2B500229E5C /* Chicken Fork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VNC Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FF0C9A305CDBDCE008E39DD /* CotVNC.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.scriptSuite; name = CotVNC.scriptSuite; path = Resources/CotVNC.scriptSuite; sourceTree = SOURCE_ROOT; };
 		7FF0C9A705CDC9A0008E39DD /* CotVNC.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.scriptTerminology; name = CotVNC.scriptTerminology; path = Resources/CotVNC.scriptTerminology; sourceTree = SOURCE_ROOT; };
 		7FFA8FE9062BA6330008D381 /* ServerBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ServerBase.h; sourceTree = "<group>"; };
@@ -931,7 +931,7 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7F7A93E305E71B5C00E20416 /* Chicken Fork */ = {
+		7F7A93E305E71B5C00E20416 /* VNC Viewer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E20426E6087531990026AA26 /* Build configuration list for PBXNativeTarget "Chicken Fork" */;
 			buildPhases = (
@@ -946,8 +946,8 @@
 			);
 			dependencies = (
 			);
-			name = "Chicken Fork";
-			productName = "Chicken Fork";
+			name = "VNC Viewer";
+			productName = "VNC Viewer";
 			productReference = 7FD66F5805E9E2B500229E5C /* Chicken Fork.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -975,7 +975,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7F7A93E305E71B5C00E20416 /* Chicken Fork */,
+				7F7A93E305E71B5C00E20416 /* VNC Viewer */,
 			);
 		};
 /* End PBXProject section */
@@ -1242,9 +1242,9 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = net.sourceforge.chicken;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.gsky.vncviewer;
 				PRODUCT_MODULE_NAME = ChickenFork;
-				PRODUCT_NAME = "Chicken Fork";
+				PRODUCT_NAME = "VNC Viewer";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
@@ -1294,9 +1294,9 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = net.sourceforge.chicken;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.gsky.vncviewer;
 				PRODUCT_MODULE_NAME = ChickenFork;
-				PRODUCT_NAME = "Chicken Fork";
+				PRODUCT_NAME = "VNC Viewer";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
@@ -1344,9 +1344,9 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = net.sourceforge.chicken;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.gsky.vncviewer;
 				PRODUCT_MODULE_NAME = ChickenFork;
-				PRODUCT_NAME = "Chicken Fork";
+				PRODUCT_NAME = "VNC Viewer";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
@@ -1532,9 +1532,9 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = net.sourceforge.chicken;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.gsky.vncviewer;
 				PRODUCT_MODULE_NAME = ChickenFork;
-				PRODUCT_NAME = "Chicken Fork";
+				PRODUCT_NAME = "VNC Viewer";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;

@@ -14,7 +14,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 PROJECT="cotvnc/ChickenFork.xcodeproj"
-SCHEME="Chicken Fork"
+SCHEME="VNC Viewer"
 CONFIG="Deployment"
 DERIVED="$ROOT/DerivedData"
 DIST="$ROOT/dist"
