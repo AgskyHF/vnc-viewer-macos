@@ -1,3 +1,0 @@
-# All tools/apps linking with gnustep-base must depend on
-# gnustep-base-runtime as well.
-libgnustep-base1.31: distant-prerequisite-in-shlibs

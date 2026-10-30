@@ -24,3 +24,6 @@ cotvnc/freerdp/lib/cmake/
 cotvnc/freerdp/lib/pkgconfig/
 cotvnc/freerdp/lib/freerdp3/
 cotvnc/freerdp/lib/libwinpr-tools3.a
+
+# Local Linux test bench (GNUstep runtime), not part of the app
+.objcbench/
