@@ -3,7 +3,8 @@ name: Build Unsigned DMG
 on:
   push:
     branches:
-      - moe
+      - main
+      - master
   workflow_dispatch:
 
 jobs:
