@@ -58,7 +58,7 @@ jobs:
 
           # Extract version from Info.plist
           VERSION=$(defaults read "$(pwd)/$APP_PATH/Contents/Info.plist" CFBundleShortVersionString 2>/dev/null || echo "2026.11")
-          DMG_NAME="Chicken-Fork-${VERSION}.dmg"
+          DMG_NAME="VNC-Viewer-${VERSION}.dmg"
           DMG_PATH="dist/${DMG_NAME}"
 
           # Create a clean staging directory for the DMG
