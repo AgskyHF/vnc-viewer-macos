@@ -27,6 +27,20 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>vnc</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>VNC Connection</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>rdp</string>
 			</array>
 			<key>CFBundleTypeName</key>

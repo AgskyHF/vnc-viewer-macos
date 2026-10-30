@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00C0FFEE0000000000003334 /* VNCProfileBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C0FFEE0000000000001112 /* VNCProfileBridge.m */; };
 		00C0FFEE0000000000003333 /* VNCConnectionProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C0FFEE0000000000001111 /* VNCConnectionProfile.m */; };
 		00C0FFEE0000000000006666 /* VNCAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C0FFEE0000000000004444 /* VNCAddressBook.m */; };
 		11EAE6575614382A4C13EBEC /* WordsAndBits.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66EF26593DBA9CB11BCF37E /* WordsAndBits.swift */; };
@@ -241,6 +242,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00C0FFEE0000000000001112 /* VNCProfileBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VNCProfileBridge.m; sourceTree = "<group>"; };
 		00C0FFEE0000000000001111 /* VNCConnectionProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VNCConnectionProfile.m; sourceTree = "<group>"; };
 		00C0FFEE0000000000004444 /* VNCAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VNCAddressBook.m; sourceTree = "<group>"; };
 		08FCC87C3C375F339D2C3853 /* ARDAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARDAuthHelper.swift; sourceTree = "<group>"; };
@@ -681,6 +683,7 @@
 		F5DC7198033DB4A801A8010C /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				00C0FFEE0000000000001112 /* VNCProfileBridge.m */,
 				00C0FFEE0000000000001111 /* VNCConnectionProfile.m */,
 				00C0FFEE0000000000004444 /* VNCAddressBook.m */,
 				08FCC87C3C375F339D2C3853 /* ARDAuthHelper.swift */,
@@ -1027,6 +1030,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00C0FFEE0000000000003334 /* VNCProfileBridge.m in Sources */,
 				00C0FFEE0000000000003333 /* VNCConnectionProfile.m in Sources */,
 				00C0FFEE0000000000006666 /* VNCAddressBook.m in Sources */,
 				DFAFAAC6195AD8BED800FFDD /* ARDAuthHelper.swift in Sources */,

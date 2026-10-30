@@ -27,6 +27,11 @@
 - (IBAction)showHelp: (id)sender;
 - (IBAction)setDiagnosticLogLevel:(id)sender;
 
+/* Import RealVNC connection files into the address book. */
+- (IBAction)importConnections:(id)sender;
+/* Export the address book as RealVNC connection files. */
+- (IBAction)exportConnections:(id)sender;
+
 
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender;

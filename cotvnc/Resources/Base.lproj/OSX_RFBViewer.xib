@@ -86,6 +86,22 @@
                                     <action selector="showConnectionDialog:" target="1367" id="1374"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="2000">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Import Connections…" id="2002">
+                                <connections>
+                                    <action selector="importConnections:" target="1367" id="2001"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Export Connections…" id="2004">
+                                <connections>
+                                    <action selector="exportConnections:" target="1367" id="2003"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="2005">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
                             <menuItem title="Listen for Server…" keyEquivalent="l" id="1454">
                                 <connections>
                                     <action selector="showListenerDialog:" target="1367" id="1455"/>

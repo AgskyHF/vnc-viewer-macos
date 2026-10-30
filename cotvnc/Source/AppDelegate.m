@@ -19,6 +19,8 @@
 #import "ServerDataViewController.h"
 #import "ServerStandAlone.h"
 #import "IServerData.h"
+#import "VNCProfileBridge.h"
+#import "VNCAddressBook.h"
 
 @implementation AppDelegate
 
@@ -142,6 +144,137 @@
 	}
 }
 
+/* Import connections ---------------------------------------------------- */
+
+- (IBAction)importConnections:(id)sender
+{
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseDirectories:YES];
+    [panel setCanChooseFiles:YES];
+    [panel setAllowsMultipleSelection:YES];
+    [panel setMessage:@"Choose RealVNC connection files or a folder of them to import."];
+    [panel setPrompt:@"Import"];
+
+    if ([panel runModal] != NSModalResponseOK)
+        return;
+
+    NSMutableArray *errors = [NSMutableArray array];
+    int total = 0;
+
+    NSArray *urls = [panel URLs];
+    NSEnumerator *e = [urls objectEnumerator];
+    NSURL *url;
+    while ((url = [e nextObject]) != nil)
+    {
+        NSString *path = [url path];
+
+        /* A .vnc file is a single connection; a folder may hold many. */
+        if ([[[path lastPathComponent] pathExtension] caseInsensitiveCompare:@"vnc"] == NSOrderedSame)
+        {
+            NSMutableArray *fileErrors = [NSMutableArray array];
+            int imported = [VNCProfileBridge importConnectionsFromDirectory:
+                                [path stringByDeletingLastPathComponent]
+                                                                     errors:&fileErrors];
+            /* The directory import takes every file in the folder, so count
+               this one separately when the import brought nothing in. */
+            if (imported <= 0)
+            {
+                NSString *error = nil;
+                if ([VNCProfileBridge importConnectionFromFile:path error:&error])
+                    total++;
+                else if (error != nil)
+                    [errors addObject:[NSString stringWithFormat:@"%@: %@",
+                                        [path lastPathComponent], error]];
+            }
+            else
+            {
+                total += imported;
+                [errors addObjectsFromArray:fileErrors];
+            }
+        }
+        else
+        {
+            int imported = [VNCProfileBridge importConnectionsFromDirectory:path errors:&errors];
+            if (imported < 0)
+                [errors addObject:[NSString stringWithFormat:@"Cannot read %@", path]];
+            else
+                total += imported;
+        }
+    }
+
+    [[ServerDataManager sharedInstance] save];
+
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:[NSString stringWithFormat:@"Imported %d connection(s)", total]];
+    if ([errors count] > 0)
+        [alert setInformativeText:[NSString stringWithFormat:@"%lu file(s) could not be imported.",
+                                  (unsigned long)[errors count]]];
+    [alert addButtonWithTitle:@"OK"];
+    [alert runModal];
+    [alert release];
+}
+
+/* Export connections ---------------------------------------------------- */
+
+- (IBAction)exportConnections:(id)sender
+{
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setCanCreateDirectories:YES];
+    [panel setCanChooseDirectories:YES];
+    [panel setMessage:@"Choose a folder to export the address book to."];
+    [panel setPrompt:@"Export"];
+
+    if ([panel runModal] != NSModalResponseOK)
+        return;
+
+    NSString *directory = [[panel URL] path];
+    if (directory == nil)
+        return;
+
+    NSAlert *passwordAlert = [[NSAlert alloc] init];
+    [passwordAlert setMessageText:@"Include passwords in the exported connections?"];
+    [passwordAlert setInformativeText:@"Passwords are stored in your keychain. "
+        @"Exported files with passwords should be kept private."];
+    [passwordAlert addButtonWithTitle:@"Include Passwords"];
+    [passwordAlert addButtonWithTitle:@"Without Passwords"];
+    [passwordAlert addButtonWithTitle:@"Cancel"];
+
+    NSModalResponse choice = [passwordAlert runModal];
+    [passwordAlert release];
+
+    if (choice != NSAlertFirstButtonReturn && choice != NSAlertSecondButtonReturn)
+        return;
+
+    BOOL includePasswords = (choice == NSAlertFirstButtonReturn);
+
+    NSMutableArray *errors = [NSMutableArray array];
+    BOOL ok = [VNCProfileBridge exportConnectionsToDirectory:directory
+                                           includePasswords:includePasswords
+                                                     errors:&errors];
+
+    NSAlert *alert = [[NSAlert alloc] init];
+    if (ok)
+    {
+        [alert setMessageText:@"Connections exported"];
+        [alert setInformativeText:[NSString stringWithFormat:
+            @"Saved to %@", directory]];
+        [alert addButtonWithTitle:@"Show in Finder"];
+        [alert addButtonWithTitle:@"OK"];
+        if ([alert runModal] == NSAlertFirstButtonReturn)
+            [[NSWorkspace sharedWorkspace] selectURL:[panel URL]];
+    }
+    else
+    {
+        [alert setMessageText:@"Export failed"];
+        [alert setInformativeText:([errors count] > 0)
+            ? [[errors objectAtIndex:0] description]
+            : @"Some connections could not be written."];
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+    }
+    [alert release];
+}
+
 - (IBAction)setDiagnosticLogLevel:(id)sender
 {
     NSInteger level = [sender tag];
@@ -228,6 +361,38 @@
 
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename
 {
+    /* A RealVNC connection file: open it as a connection, exactly like
+       double-clicking an exported connection file does in RealVNC. */
+    if ([[filename pathExtension] caseInsensitiveCompare:@"vnc"] == NSOrderedSame)
+    {
+        NSString *error = nil;
+        if (![VNCProfileBridge importConnectionFromFile:filename error:&error])
+        {
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setMessageText:@"Cannot open this connection file"];
+            [alert setInformativeText:(error != nil) ? error
+                                  : @"The file is not a valid RealVNC connection file."];
+            [alert addButtonWithTitle:@"OK"];
+            [alert runModal];
+            [alert release];
+            return NO;
+        }
+
+        [[ServerDataManager sharedInstance] save];
+
+        /* Start the connection that was just imported. */
+        VNCConnectionProfile *profile = [VNCConnectionProfile profileFromFileAtPath:filename
+                                                                               error:NULL];
+        if (profile != nil)
+        {
+            NSString *name = [profile friendlyName];
+            if ([name length] == 0)
+                name = [[filename lastPathComponent] stringByDeletingPathExtension];
+            [[RFBConnectionManager sharedManager] connectToSavedServerByName:name];
+        }
+        return YES;
+    }
+
     if ([[filename pathExtension] caseInsensitiveCompare:@"rdp"] == NSOrderedSame)
     {
         NSStringEncoding encoding = 0;
