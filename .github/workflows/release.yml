@@ -74,7 +74,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          APP_PATH="$(find ./DerivedData -name "VNC Viewer.app" -type d -maxdepth 4 | head -n 1)"
+          APP_PATH="$(find ./DerivedData -name "VNC Viewer.app" -type d | head -n 1)"
           if [ -z "$APP_PATH" ]; then
             echo "Error: VNC Viewer.app not found in DerivedData!" >&2
             exit 1

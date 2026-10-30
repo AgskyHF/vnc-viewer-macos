@@ -45,7 +45,7 @@ xcodebuild \
   CODE_SIGN_IDENTITY="" \
   clean build
 
-APP_PATH="$(find "$DERIVED" -name "$SCHEME.app" -type d -maxdepth 4 | head -n 1)"
+APP_PATH="$(find "$DERIVED" -name "$SCHEME.app" -type d | head -n 1)"
 if [ -z "$APP_PATH" ]; then
   echo "ERROR: $SCHEME.app was not produced by the build." >&2
   exit 1
