@@ -1,0 +1,112 @@
+//
+//  ServerDataViewController.h
+//  Chicken of the VNC
+//
+//  Created by Jared McIntyre on Sun May 1 2004.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
+
+
+#import <Cocoa/Cocoa.h>
+#import "ConnectionWaiter.h"
+
+@protocol IServerData;
+@protocol ConnectionDelegate;
+@class RFBConnection;
+@class RFBConnectionManager;
+@class ServerBase;
+
+@interface ServerDataViewController : NSWindowController
+                                            <ConnectionWaiterDelegate, NSControlTextEditingDelegate>
+{
+    IBOutlet NSSegmentedControl *protocolControl;
+    IBOutlet NSTextField *protocolLabel;
+    IBOutlet NSTextField *displayLabel;
+    IBOutlet NSTextField *display;
+    IBOutlet NSTextField *displayDescription;
+    IBOutlet NSTextField *hostName;
+    IBOutlet NSTextField *username;
+    IBOutlet NSTextField *usernameLabel;
+    IBOutlet NSTextField *password;
+    IBOutlet NSTextField *passwordLabel;
+    IBOutlet NSPopUpButton *profilePopup;
+    IBOutlet NSTextField *profileLabel;
+    IBOutlet NSButton *rememberPwd;
+
+    IBOutlet NSButton *shared;
+	IBOutlet NSButton *viewOnly;
+	IBOutlet NSButton *save;
+    IBOutlet NSButton *useSshTunnel;
+    IBOutlet NSTextField *sshHost;
+    IBOutlet NSTextField *sshHostLabel;
+
+	IBOutlet NSBox *box;
+	IBOutlet NSButton *connectBtn;
+	
+	IBOutlet NSProgressIndicator *connectIndicator;
+	IBOutlet NSTextField *connectIndicatorText;
+	
+	ServerBase  *mServer;
+	
+	bool selfTerminate;
+	bool removedSaveCheckbox;
+
+    ConnectionWaiter    *connectionWaiter;
+    BOOL saveCheckboxWasVisible;
+    NSArray             *topLevelObjects;
+    RFBConnectionManager *superController;
+}
+
+- (id)initWithReleaseOnCloseOrConnect;
+
+- (void)setServer:(id<IServerData>)server;
+- (id<IServerData>)server;
+
+- (IBAction)protocolChanged:(id)sender;
+- (IBAction)usernameChanged:(id)sender;
+- (IBAction)passwordChanged:(id)sender;
+- (IBAction)rememberPwdChanged:(id)sender;
+- (IBAction)profileSelectionChanged:(id)sender;
+
+- (IBAction)sharedChanged:(id)sender;
+- (IBAction)viewOnlyChanged:(id)sender;
+- (IBAction)useSshTunnelChanged:(id)sender;
+- (IBAction)sshHostChanged:(id)sender;
+- (IBAction)connectToServer:(id)sender;
+- (IBAction)addServerChanged:(id)sender;
+
+- (IBAction)showProfileManager:(id)sender;
+
+- (IBAction)cancelConnect: (id)sender;
+
+- (void)connectionSucceeded: (id<RemoteConnection>)theConnection;
+- (void)connectionFailed;
+- (void)connectionAttemptEnded;
+
+- (void)disableControls;
+
+- (NSBox*)box;
+
+- (void)updateView:(id)notification;
+- (void)updateProfileView:(id)notification;
+- (void)setProfilePopupToProfile: (Profile *)profileName;
+
+- (void)loadProfileIntoView;
+
+- (void)setSaveCheckboxIsVisible:(BOOL)visible;
+- (void)setSuperController:(RFBConnectionManager *)aSuperController;
+
+@end

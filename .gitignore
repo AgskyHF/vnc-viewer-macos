@@ -1,0 +1,26 @@
+# xcode noise
+cotvnc/build/*
+*.pbxuser
+*.mode1v3
+*~.nib/
+*.perspective 
+*.perspectivev3
+
+project.xcworkspace/
+xcuserdata/
+
+# packages
+*.ipa
+cotvnc/DerivedData/
+build/
+.build/
+TASK.md
+IMPLEMENTATION_PLAN.md
+
+# FreeRDP build artifacts
+cotvnc/freerdp/bin/
+cotvnc/freerdp/share/
+cotvnc/freerdp/lib/cmake/
+cotvnc/freerdp/lib/pkgconfig/
+cotvnc/freerdp/lib/freerdp3/
+cotvnc/freerdp/lib/libwinpr-tools3.a

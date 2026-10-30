@@ -1,0 +1,5 @@
+# libicu76 installs multiple shared libraries, none of which is
+# actually called libicu.so.76, but all of which are libicu*.so.76 .
+libicu76: package-name-doesnt-match-sonames libicudata76 libicui18n76 libicuio76 libicutest76 libicutu76 libicuuc76
+# contains data only
+libicu76: shared-library-lacks-prerequisites [usr/lib/*/libicudata.so.*.?]

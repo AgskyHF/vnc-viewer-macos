@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Getting started with Chicken Fork: configuring VNC and RDP connections, managing server bookmarks, credentials in Keychain, and SSH tunneling." />
+  <link rel="canonical" href="https://ays7.github.io/chicken/getting-started.html" />
+  <meta property="og:title" content="Chicken Fork &mdash; Getting-Started" />
+  <meta property="og:url" content="https://ays7.github.io/chicken/getting-started.html" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="style_sheet.css" type="text/css" />
+  <title>Connection Setup &mdash; Chicken Fork</title>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand">
+      <a href="index.html" class="brand-main">
+        <img src="ChickenFork.png" alt="Chicken Fork Logo" class="brand-icon" />
+        <div class="brand-text">
+          <span class="brand-title">Chicken Fork</span>
+          <span class="brand-subtitle">Documentation</span>
+        </div>
+      </a>
+      <div class="brand-badges">
+        <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer" class="github-pill" title="View repository on GitHub">
+          <svg class="github-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer" class="version-pill" title="View releases on GitHub">v2026.11</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Getting Started</div>
+      <ul class="nav-list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="getting-started.html" class="active">Connection Setup</a></li>
+        <li><a href="rdp.html">Remote Desktop (RDP)</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Configuration</div>
+      <ul class="nav-list">
+        <li><a href="profiles.html">Profiles &amp; Encodings</a></li>
+        <li><a href="preferences.html">Preferences &amp; Shortcuts</a></li>
+        <li><a href="advanced.html">Advanced Usage</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Support &amp; History</div>
+      <ul class="nav-list">
+        <li><a href="faq.html">Frequently Asked Questions</a></li>
+        <li><a href="history.html">Version History</a></li>
+        <li><a href="contact.html">Credits &amp; Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Project</div>
+      <ul class="nav-list">
+        <li>
+          <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+            GitHub Repository &nearr;
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.75 2a.75.75 0 01.75.75V8.69l1.72-1.72a.75.75 0 111.06 1.06l-3 3a.75.75 0 01-1.06 0l-3-3a.75.75 0 111.06-1.06l1.72 1.72V2.75A.75.75 0 017.75 2zM3 12a1 1 0 00-1 1v1a1 1 0 001 1h10a1 1 0 001-1v-1a1 1 0 00-1-1H3z"></path></svg>
+            Releases &amp; Assets &nearr;
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="content">
+    <h1>Connection Setup</h1>
+    <p>When you launch Chicken Fork, you are greeted by the <strong>Connection Window</strong>. From this dialog, you can configure connections to remote computers, save frequently accessed hosts into your bookmarks sidebar, and customize security settings.</p>
+
+    <h2>The Connection Window</h2>
+    <p>Chicken Fork supports both <strong>VNC</strong> (Virtual Network Computing) and <strong>RDP</strong> (Microsoft Remote Desktop) protocols. Use the controls detailed below to configure your connection:</p>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Connection Parameters &amp; Options</span>
+        <span class="badge badge-both">VNC &amp; RDP</span>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Protocol Selector <span class="badge badge-both">VNC / RDP</span></span>
+        <p class="ui-card-desc">Switch between <strong>VNC</strong> (classic RFB protocol and Apple Screen Sharing) and <strong>RDP</strong> (Microsoft Remote Desktop). The window fields adapt dynamically based on your chosen protocol.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Saved Servers Sidebar</span>
+        <p class="ui-card-desc">Store frequently visited servers for one-click access. Use the <kbd>+</kbd> and <kbd>&minus;</kbd> buttons at the bottom of the list to add or remove server bookmarks. Discovered Bonjour servers also appear here automatically.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Host</span>
+        <p class="ui-card-desc">The address of the remote machine. You can specify a DNS hostname (e.g. <code>myserver.example.com</code>), an IPv4 address (<code>192.168.1.50</code>), or an IPv6 address (<code>[fe80::1]</code>). You may also append an explicit port with a colon (e.g. <code>myserver.com:5902</code> or <code>winpc.local:3390</code>).</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Display or Port <span class="badge badge-vnc">VNC Only</span></span>
+        <p class="ui-card-desc">In VNC mode, numbers less than <strong>50</strong> are treated as VNC display numbers (display <code>0</code> maps to port <code>5900</code>, display <code>1</code> maps to port <code>5901</code>). Numbers 50 and higher are interpreted as direct TCP port numbers. In RDP mode, this field is hidden and defaults to port <code>3389</code>.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Username <span class="badge badge-both">RDP &amp; Apple ARD</span></span>
+        <p class="ui-card-desc">Enter the remote user account. Required for Windows RDP connections (e.g. <code>Administrator</code> or <code>DOMAIN\user</code>) and macOS Screen Sharing when using Apple Remote Desktop (ARD) authentication.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Password &amp; Remember Password</span>
+        <p class="ui-card-desc">The authentication password for the remote system. If <strong>Remember Password</strong> is checked, Chicken Fork saves the password into your secure <strong>macOS Keychain</strong> so you do not need to retype it on subsequent connections.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Connection Profile</span>
+        <p class="ui-card-desc">Select a profile to apply custom keyboard modifier mappings, color depths, and compression encodings. See <a href="profiles.html">Profiles &amp; Encodings</a> for more details.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">View Only</span>
+        <p class="ui-card-desc">When checked, the session runs in non-interactive observation mode. You can view remote screen updates, but no mouse movements, clicks, or keystrokes are transmitted.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Allow other clients to connect <span class="badge badge-vnc">VNC Only</span></span>
+        <p class="ui-card-desc">Requests a shared VNC session. If checked, other clients already connected to the VNC server are allowed to remain connected simultaneously.</p>
+      </div>
+
+      <div class="ui-card-row">
+        <span class="ui-card-label">Fullscreen Display</span>
+        <p class="ui-card-desc">Immediately opens the connection in native macOS Spaces Fullscreen mode rather than in a standard window.</p>
+      </div>
+    </div>
+
+    <h2>Tunneling Over SSH</h2>
+    <p>Chicken Fork features built-in SSH tunneling, allowing you to securely connect to remote VNC and RDP servers across untrusted networks or through corporate firewalls.</p>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>SSH Tunneling Configuration</span>
+        <span class="badge badge-both">VNC &amp; RDP</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Tunnel over SSH</span>
+        <p class="ui-card-desc">Check this box to instruct Chicken Fork to establish an encrypted SSH tunnel to an intermediate gateway (or the remote host itself) before initiating the remote desktop connection.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">SSH Host</span>
+        <p class="ui-card-desc">The SSH server to connect to. You can specify custom usernames and ports: <code>username@ssh.example.com:2222</code>. If no username is given, your local macOS username is used by default.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-title">🔑 Passphrase-Protected SSH Keys</div>
+      <p>If your SSH private key requires a passphrase, Chicken Fork detects this and prompts for entry. To avoid entering passphrases repeatedly, add your key to the macOS Keychain using Terminal:</p>
+      <pre><code>ssh-add --apple-use-keychain ~/.ssh/id_ed25519</code></pre>
+      <p>Once added, macOS unlocks the key automatically when Chicken Fork establishes the tunnel.</p>
+    </div>
+
+    <h2>Protocol Security Comparison</h2>
+    <p>Different protocols offer different security profiles. Here is how they compare in Chicken Fork:</p>
+
+    <div class="table-wrapper">
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Protocol / Method</th>
+            <th>Encryption</th>
+            <th>Authentication</th>
+            <th>Recommended Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Standard VNC</strong></td>
+            <td>None (Cleartext pixels &amp; keystrokes)</td>
+            <td>DES challenge-response (password truncated to 8 chars)</td>
+            <td>Isolated private LANs only. Never use over the public Internet without SSH!</td>
+          </tr>
+          <tr>
+            <td><strong>VNC + SSH Tunnel</strong></td>
+            <td>AES / ChaCha20 via SSH tunnel</td>
+            <td>SSH public key or password + VNC password</td>
+            <td>Connecting to remote Linux / Mac VNC servers over the Internet.</td>
+          </tr>
+          <tr>
+            <td><strong>Apple Remote Desktop (ARD)</strong></td>
+            <td>Diffie-Hellman Key Exchange + AES</td>
+            <td>macOS system username &amp; password</td>
+            <td>Connecting to modern macOS Screen Sharing without unencrypted passwords.</td>
+          </tr>
+          <tr>
+            <td><strong>Microsoft RDP</strong></td>
+            <td>TLS / SSL with OpenSSL 3.x</td>
+            <td>Network Level Authentication (NLA / CredSSP)</td>
+            <td>Native encrypted connection to Windows Server &amp; Windows 10/11 PCs, as well as Linux hosts (RHEL, Fedora, Ubuntu via xrdp or gnome-remote-desktop).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-footer">
+      <div>&larr; <a href="index.html">Overview</a></div>
+      <div>Chicken Fork &copy; 2022&ndash;2026 Alexey Shakula &bull; <a href="https://github.com/ays7/chicken">GitHub</a></div>
+      <div><a href="rdp.html">Remote Desktop (RDP)</a> &rarr;</div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

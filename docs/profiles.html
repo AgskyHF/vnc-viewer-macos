@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chicken Fork Connection Profiles: customize VNC encodings (ZRLE, Tight with libjpeg-turbo), mouse emulation, modifier key mappings, and color tinting." />
+  <link rel="canonical" href="https://ays7.github.io/chicken/profiles.html" />
+  <meta property="og:title" content="Chicken Fork &mdash; Profiles" />
+  <meta property="og:url" content="https://ays7.github.io/chicken/profiles.html" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="style_sheet.css" type="text/css" />
+  <title>Profiles &amp; Encodings &mdash; Chicken Fork</title>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand">
+      <a href="index.html" class="brand-main">
+        <img src="ChickenFork.png" alt="Chicken Fork Logo" class="brand-icon" />
+        <div class="brand-text">
+          <span class="brand-title">Chicken Fork</span>
+          <span class="brand-subtitle">Documentation</span>
+        </div>
+      </a>
+      <div class="brand-badges">
+        <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer" class="github-pill" title="View repository on GitHub">
+          <svg class="github-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer" class="version-pill" title="View releases on GitHub">v2026.11</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Getting Started</div>
+      <ul class="nav-list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="getting-started.html">Connection Setup</a></li>
+        <li><a href="rdp.html">Remote Desktop (RDP)</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Configuration</div>
+      <ul class="nav-list">
+        <li><a href="profiles.html" class="active">Profiles &amp; Encodings</a></li>
+        <li><a href="preferences.html">Preferences &amp; Shortcuts</a></li>
+        <li><a href="advanced.html">Advanced Usage</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Support &amp; History</div>
+      <ul class="nav-list">
+        <li><a href="faq.html">Frequently Asked Questions</a></li>
+        <li><a href="history.html">Version History</a></li>
+        <li><a href="contact.html">Credits &amp; Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Project</div>
+      <ul class="nav-list">
+        <li>
+          <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+            GitHub Repository &nearr;
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.75 2a.75.75 0 01.75.75V8.69l1.72-1.72a.75.75 0 111.06 1.06l-3 3a.75.75 0 01-1.06 0l-3-3a.75.75 0 111.06-1.06l1.72 1.72V2.75A.75.75 0 017.75 2zM3 12a1 1 0 00-1 1v1a1 1 0 001 1h10a1 1 0 001-1v-1a1 1 0 00-1-1H3z"></path></svg>
+            Releases &amp; Assets &nearr;
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="content">
+    <h1>Profiles &amp; Encodings</h1>
+    <p><strong>Connection Profiles</strong> allow you to save tailored graphics, compression, mouse emulation, and keyboard mapping settings for different computers or network conditions. For instance, you can use high-bandwidth 32-bit color for local Gigabit LAN connections, while applying aggressive JPEG compression and 8-bit color for remote mobile tethering.</p>
+
+    <p>To access the Profile Manager, choose <strong>Connection &rarr; Connection Profiles...</strong> from the menu bar or click the <strong>Profile</strong> popup in the Connection Window.</p>
+
+    <h2>Managing Profiles</h2>
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Profile Management Controls</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Profile Selector List</span>
+        <p class="ui-card-desc">Displays all available profiles. Chicken Fork includes sensible defaults such as <strong>Default</strong>, <strong>Windows</strong>, and <strong>Low Bandwidth</strong>.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Creating &amp; Deleting Profiles</span>
+        <p class="ui-card-desc">Type a name in the text field below the list and click <strong>New</strong> to create a new profile. Select an existing custom profile and click <strong>Delete</strong> to remove it.</p>
+      </div>
+    </div>
+
+    <h2>Profile Configuration Tabs</h2>
+
+    <h3>1. Encodings Tab <span class="badge badge-vnc">VNC</span></h3>
+    <p>In VNC (RFB), screen updates are compressed using graphical encodings. The more efficient the encoding, the lower the network bandwidth required, at the cost of slight CPU overhead.</p>
+
+    <div class="callout callout-note">
+      <div class="callout-title">ℹ️ Note Regarding RDP Sessions</div>
+      <p>The Encodings tab applies specifically to VNC sessions. Microsoft RDP connections manage compression automatically using FreeRDP's hardware-assisted <strong>RemoteFX (RFX)</strong> and <strong>Enhanced GFX (EGFX)</strong> pipelines.</p>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Encoding</th>
+            <th>Type</th>
+            <th>Characteristics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ZRLE</strong></td>
+            <td>Lossless</td>
+            <td>Zlib Run-Length Encoding. Highly efficient compression for text, code, and graphical user interfaces. Typically the best all-around default for VNC.</td>
+          </tr>
+          <tr>
+            <td><strong>Tight</strong></td>
+            <td>Lossy / Lossless</td>
+            <td>Blends 2D compression with JPEG image encoding, accelerated natively on Apple Silicon and Intel via <strong>libjpeg-turbo 3.2.0</strong>. Ideal for photographic content or remote video.</td>
+          </tr>
+          <tr>
+            <td><strong>Zlib / ZlibHex</strong></td>
+            <td>Lossless</td>
+            <td>Standard DEFLATE compression. Solid fallback when connecting to older Unix or embedded VNC servers.</td>
+          </tr>
+          <tr>
+            <td><strong>Hextile</strong></td>
+            <td>Lossless</td>
+            <td>Low CPU overhead tile-based encoding, effective on fast local networks with limited CPU resources.</td>
+          </tr>
+          <tr>
+            <td><strong>CopyRect</strong></td>
+            <td>Optimization</td>
+            <td>Tells the client to copy existing screen rectangles instead of re-transmitting pixels when windows or text scroll. Always keep enabled.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>2. Emulation Tab (Mouse Buttons)</h3>
+    <p>While modern Macs feature multi-touch trackpads and multi-button mice, Chicken Fork provides extensive mouse emulation options for maximum flexibility:</p>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Mouse Emulation Options</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">No Emulation (Recommended for Modern Macs)</span>
+        <p class="ui-card-desc">Directly transmits left-click, right-click (secondary click / two-finger tap), and middle-click. Scroll wheel and trackpad two-finger scrolling are passed natively.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Modifier Click</span>
+        <p class="ui-card-desc">Emulate secondary clicks by holding a chosen modifier key while clicking (e.g. <kbd>Control</kbd> + click or <kbd>Option</kbd> + click).</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Multi-Tap</span>
+        <p class="ui-card-desc">Emulate a button click by tapping a modifier key (such as <kbd>⌘</kbd>) twice in rapid succession at the current cursor position.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Tap and Click</span>
+        <p class="ui-card-desc">Tap a modifier key once to enter emulation mode (cursor changes shape), then click to execute the secondary click. Press <kbd>Esc</kbd> or wait for timeout to cancel.</p>
+      </div>
+    </div>
+
+    <h3>3. Modifiers Tab (Keyboard Mapping)</h3>
+    <p>Allows you to map macOS modifier keys (<kbd>⌘</kbd>, <kbd>⌥</kbd>, <kbd>⌃</kbd>) to keys expected by remote operating systems:</p>
+    <ul>
+      <li><strong>Command Key (<kbd>⌘</kbd>)</strong>: Commonly mapped to <strong>Meta</strong> on Unix/Linux, <strong>Alt</strong> on Windows, or the <strong>Windows Start Key</strong>.</li>
+      <li><strong>Option Key (<kbd>⌥</kbd>)</strong>: By default sent as Alt/Option. Setting this to <strong>none (local keymap)</strong> prevents Option from being intercepted by the remote server, enabling you to type special macOS accented characters (e.g. <kbd>⌥</kbd> + <kbd>e</kbd> for &eacute;).</li>
+      <li><strong>Control Key (<kbd>⌃</kbd>)</strong>: Maps directly to standard remote Control.</li>
+    </ul>
+
+    <h3>4. Colors Tab (Depth &amp; Display Tinting)</h3>
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Color Settings &amp; Tinting</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Color Resolution</span>
+        <p class="ui-card-desc">Select <strong>Let Server Decide</strong> (32-bit true color) for pristine visual quality. Over congested networks, dropping to 16-bit (thousands of colors) or 8-bit (256 colors) significantly cuts bandwidth.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Tint Remote Display (Visual Distinguishability)</span>
+        <p class="ui-card-desc">One of Chicken's most celebrated features! When connecting from a Mac to another Mac, it can be disorienting to know whether a window is on your local machine or the remote screen. Checking <strong>Tint remote display</strong> tints the remote session with a soft, customizable color wash, eliminating any confusion.</p>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div>&larr; <a href="rdp.html">Remote Desktop (RDP)</a></div>
+      <div>Chicken Fork &copy; 2022&ndash;2026 Alexey Shakula &bull; <a href="https://github.com/ays7/chicken">GitHub</a></div>
+      <div><a href="preferences.html">Preferences &amp; Shortcuts</a> &rarr;</div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

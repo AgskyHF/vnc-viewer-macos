@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Microsoft Remote Desktop (RDP) in Chicken Fork: connecting to Windows Server and Windows 10/11 using FreeRDP, NLA/CredSSP, TLS, and .rdp files." />
+  <link rel="canonical" href="https://ays7.github.io/chicken/rdp.html" />
+  <meta property="og:title" content="Chicken Fork &mdash; Rdp" />
+  <meta property="og:url" content="https://ays7.github.io/chicken/rdp.html" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="style_sheet.css" type="text/css" />
+  <title>Microsoft Remote Desktop (RDP) &mdash; Chicken Fork</title>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand">
+      <a href="index.html" class="brand-main">
+        <img src="ChickenFork.png" alt="Chicken Fork Logo" class="brand-icon" />
+        <div class="brand-text">
+          <span class="brand-title">Chicken Fork</span>
+          <span class="brand-subtitle">Documentation</span>
+        </div>
+      </a>
+      <div class="brand-badges">
+        <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer" class="github-pill" title="View repository on GitHub">
+          <svg class="github-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer" class="version-pill" title="View releases on GitHub">v2026.11</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Getting Started</div>
+      <ul class="nav-list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="getting-started.html">Connection Setup</a></li>
+        <li><a href="rdp.html" class="active">Remote Desktop (RDP)</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Configuration</div>
+      <ul class="nav-list">
+        <li><a href="profiles.html">Profiles &amp; Encodings</a></li>
+        <li><a href="preferences.html">Preferences &amp; Shortcuts</a></li>
+        <li><a href="advanced.html">Advanced Usage</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Support &amp; History</div>
+      <ul class="nav-list">
+        <li><a href="faq.html">Frequently Asked Questions</a></li>
+        <li><a href="history.html">Version History</a></li>
+        <li><a href="contact.html">Credits &amp; Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Project</div>
+      <ul class="nav-list">
+        <li>
+          <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+            GitHub Repository &nearr;
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.75 2a.75.75 0 01.75.75V8.69l1.72-1.72a.75.75 0 111.06 1.06l-3 3a.75.75 0 01-1.06 0l-3-3a.75.75 0 111.06-1.06l1.72 1.72V2.75A.75.75 0 017.75 2zM3 12a1 1 0 00-1 1v1a1 1 0 001 1h10a1 1 0 001-1v-1a1 1 0 00-1-1H3z"></path></svg>
+            Releases &amp; Assets &nearr;
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="content">
+    <div class="hero">
+      <img src="ChickenFork.png" alt="Chicken Fork Logo" class="hero-logo" />
+      <div class="hero-text">
+        <h1>Microsoft Remote Desktop (RDP) <span class="badge badge-rdp">New in 2026.11</span></h1>
+        <p class="hero-tagline">High-performance native RDP client powered by FreeRDP 3.32.2 and OpenSSL 3.x for Windows and Linux.</p>
+        <p class="tagline-fun">Connecting to Windows and Linux without breaking a sweat &mdash; brawwwK!</p>
+      </div>
+    </div>
+
+    <h2>Overview</h2>
+    <p>Starting with version <strong>2026.11</strong>, Chicken Fork includes full native support for the <strong>Microsoft Remote Desktop Protocol (RDP)</strong>. Powered by statically linked <strong>FreeRDP 3.32.2</strong> and <strong>OpenSSL 3.x</strong>, Chicken Fork connects smoothly to modern Windows Server, Windows 10/11 desktops, and Linux workstations with enterprise-grade security and low-latency graphics.</p>
+
+    <h3>RDP on Linux</h3>
+    <p>RDP is no longer just for Windows. After Red Hat and other distributions killed X11 along with classic <code>vncserver</code> in favor of Wayland, remote desktop access on Linux shifted heavily toward RDP. Desktops using GNOME (via <code>gnome-remote-desktop</code>) and standalone servers like <code>xrdp</code> now rely on RDP for remote graphical sessions.</p>
+    <p>Chicken Fork provides first-class compatibility with both Windows hosts and Linux RDP servers, delivering hardware-accelerated rendering, dynamic resizing, and secure TLS authentication across platforms.</p>
+
+    <div class="callout callout-tip">
+      <div class="callout-title">💡 Why Native RDP in Chicken Fork?</div>
+      <p>Instead of juggling separate apps for Linux/Mac and Windows, Chicken Fork brings both remote desktop protocols under one native, lightweight macOS application with unified bookmarks, SSH tunneling, and Keychain storage.</p>
+    </div>
+
+    <h2>Connecting to Windows &amp; Linux Hosts</h2>
+    <p>Initiating an RDP connection in Chicken Fork is simple:</p>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Connection Window &mdash; RDP Mode</span>
+        <span class="badge badge-rdp">RDP Protocol</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">1. Protocol Selector</span>
+        <p class="ui-card-desc">Click the <strong>RDP</strong> segment at the top of the connection dialog. The interface automatically adapts, hiding VNC-only fields (like Display Number) and showing RDP credentials.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">2. Host</span>
+        <p class="ui-card-desc">Enter the Windows hostname or IP address (e.g. <code>192.168.1.150</code>, <code>winserver.corp.local</code>, or <code>[2001:db8::1]</code>). RDP automatically defaults to port <strong>3389</strong>. You can override the port by appending <code>:port</code> (e.g. <code>winserver.local:3390</code>).</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">3. Username &amp; Domain</span>
+        <p class="ui-card-desc">Enter your Windows username. For Active Directory or domain accounts, use standard <code>DOMAIN\username</code> format or simply your username if connecting to a local account.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">4. Password &amp; Keychain</span>
+        <p class="ui-card-desc">Enter the account password. Check <strong>Remember Password</strong> to securely save your credentials in the encrypted macOS Keychain.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">5. Connection Profile</span>
+        <p class="ui-card-desc">Choose a connection profile (such as <strong>Windows</strong> or <strong>Default</strong>). Profiles manage keyboard modifier translations and color depths.</p>
+      </div>
+    </div>
+
+    <h2>Opening <code>.rdp</code> Files</h2>
+    <p>Chicken Fork registers as a system viewer for standard Remote Desktop Connection files (<code>.rdp</code>):</p>
+    <ul>
+      <li><strong>Double-Clicking in Finder</strong>: Simply double-click any <code>.rdp</code> connection file exported from Windows or cloud consoles (AWS, Azure). Chicken Fork automatically opens, parses the settings, and starts the session.</li>
+      <li><strong>Menu Bar</strong>: Choose <strong>File &rarr; Open Connection...</strong> (<kbd>⌘</kbd> + <kbd>O</kbd>) and select an <code>.rdp</code> file.</li>
+    </ul>
+    <p>Chicken Fork automatically parses the server hostname, port, domain, and username from the file, prompting for passwords when required.</p>
+
+    <h2>Handling <code>rdp://</code> URL Schemes</h2>
+    <p>You can launch RDP sessions directly from web browsers, custom scripts, Alfred, Raycast, or the Terminal using standard <code>rdp://</code> URLs:</p>
+
+    <pre><code># Quick connection to host
+open "rdp://192.168.1.100"
+
+# With username and custom port
+open "rdp://Administrator@winserver.local:3390"
+
+# Direct invocation via Chicken Fork command line
+./"Chicken Fork.app/Contents/MacOS/Chicken Fork" rdp://admin@10.0.0.50</code></pre>
+
+    <h2>Security &amp; Network Level Authentication</h2>
+    <p>Security is paramount when connecting to Windows environments. Chicken Fork's RDP client supports modern enterprise authentication:</p>
+
+    <div class="table-wrapper">
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Security Mechanism</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>NLA / CredSSP</strong></td>
+            <td>Network Level Authentication finishes user authentication before establishing the full RDP session, protecting against DoS and unauthorized access.</td>
+            <td><span class="badge badge-rdp">Enabled by Default</span></td>
+          </tr>
+          <tr>
+            <td><strong>TLS / SSL Encryption</strong></td>
+            <td>Full end-to-end transport layer security powered by static OpenSSL 3.x. Key exchange and cipher suites comply with modern security baselines.</td>
+            <td><span class="badge badge-rdp">Supported</span></td>
+          </tr>
+          <tr>
+            <td><strong>Certificate Verification</strong></td>
+            <td>Chicken Fork inspects server TLS certificates. When connecting to a self-signed server, you will be prompted to verify and trust the certificate fingerprint.</td>
+            <td><span class="badge badge-rdp">Interactive Prompt</span></td>
+          </tr>
+          <tr>
+            <td><strong>Standard RDP Security</strong></td>
+            <td>Legacy RC4/RDP security fallback for older embedded or legacy Windows machines.</td>
+            <td><span class="badge badge-rdp">Fallback</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Key Features in RDP Sessions</h2>
+
+    <h3>Dynamic Desktop Resizing</h3>
+    <p>Chicken Fork supports dynamic display resizing via Microsoft's RDP <code>DisplayControl</code> extension. When you resize the Chicken Fork session window on macOS, a dynamic monitor layout update is transmitted to Windows. The Windows remote desktop instantly reorganizes its desktop resolution to match your macOS window dimensions &mdash; no reconnecting or logging off required!</p>
+
+    <h3>Audio Reception &amp; Output</h3>
+    <p>Remote audio is streamed directly to your Mac using Microsoft's RDP Audio Output extension (<code>rdpsnd</code>) powered by macOS <code>AVAudioEngine</code> and CoreAudio. High-fidelity stereo audio plays seamlessly with automatic latency compensation. When opening <code>.rdp</code> connection files, Chicken Fork respects the standard <code>audiomode:i:</code> setting (redirect to client, play on remote server, or mute).</p>
+
+    <h3>Automatic Clipboard Synchronization</h3>
+    <p>Text, Unicode characters, and rich formatting are automatically synchronized bidirectionally between your Mac clipboard and the remote Windows desktop via the <code>cliprdr</code> channel. Simply press <kbd>⌘</kbd> + <kbd>C</kbd> on macOS and <kbd>Ctrl</kbd> + <kbd>V</kbd> on Windows.</p>
+
+    <h3>Synchronized Mouse Cursors</h3>
+    <p>Windows mouse cursor shapes (text selection I-beam, resize arrows, hourglass/spinners, hand pointer) are decoded and drawn directly by macOS for crisp, zero-latency pointer responsiveness.</p>
+
+    <h3>SSH Gateway &amp; Bastion Tunneling</h3>
+    <p>Need to connect to an internal Windows workstation or server located behind an SSH bastion or firewall? Chicken Fork makes this painless:</p>
+    <ol>
+      <li>Check <strong>Tunnel over SSH</strong> in the connection window.</li>
+      <li>Enter the SSH gateway address (e.g. <code>bastion.company.com</code> or <code>user@gateway:2222</code>).</li>
+      <li>Chicken Fork establishes an encrypted SSH port forward and establishes the RDP connection through the tunnel.</li>
+    </ol>
+
+    <h2>Windows Keyboard Mappings &amp; Shortcuts</h2>
+    <p>Windows uses different modifier conventions than macOS. Chicken Fork provides easy ways to navigate these differences:</p>
+
+    <div class="table-wrapper">
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>macOS Keystroke</th>
+            <th>Windows Remote Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Copy / Paste / Undo</strong></td>
+            <td><kbd>Ctrl</kbd> + <kbd>C</kbd> / <kbd>V</kbd> / <kbd>Z</kbd></td>
+            <td>Standard Windows copy, paste, and undo.</td>
+          </tr>
+          <tr>
+            <td><strong>Windows Start Key</strong></td>
+            <td><kbd>⌘</kbd> (in Windows Profile)</td>
+            <td>Opens Windows Start Menu.</td>
+          </tr>
+          <tr>
+            <td><strong>Send Ctrl-Alt-Del</strong></td>
+            <td>Menu: <strong>Connection &rarr; Special Keys &rarr; Send Ctrl-Alt-Del</strong></td>
+            <td>Triggers Windows Security / Task Manager screen.</td>
+          </tr>
+          <tr>
+            <td><strong>Close Window</strong></td>
+            <td><kbd>⌥</kbd> + <kbd>F4</kbd> (or <kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>fn</kbd> + <kbd>F4</kbd>)</td>
+            <td>Closes the active Windows application.</td>
+          </tr>
+          <tr>
+            <td><strong>Toggle Fullscreen</strong></td>
+            <td><kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>⌃</kbd> + <kbd>`</kbd></td>
+            <td>Switches the session into macOS Spaces Full Screen.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-footer">
+      <div>&larr; <a href="getting-started.html">Connection Setup</a></div>
+      <div>Chicken Fork &copy; 2022&ndash;2026 Alexey Shakula &bull; <a href="https://github.com/ays7/chicken">GitHub</a></div>
+      <div><a href="profiles.html">Profiles &amp; Encodings</a> &rarr;</div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

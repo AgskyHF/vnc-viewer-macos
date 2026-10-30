@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chicken Fork Preferences: performance sliders, fullscreen auto-scroll speed, custom keyboard shortcuts, and diagnostic logging levels." />
+  <link rel="canonical" href="https://ays7.github.io/chicken/preferences.html" />
+  <meta property="og:title" content="Chicken Fork &mdash; Preferences" />
+  <meta property="og:url" content="https://ays7.github.io/chicken/preferences.html" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="style_sheet.css" type="text/css" />
+  <title>Preferences &amp; Shortcuts &mdash; Chicken Fork</title>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand">
+      <a href="index.html" class="brand-main">
+        <img src="ChickenFork.png" alt="Chicken Fork Logo" class="brand-icon" />
+        <div class="brand-text">
+          <span class="brand-title">Chicken Fork</span>
+          <span class="brand-subtitle">Documentation</span>
+        </div>
+      </a>
+      <div class="brand-badges">
+        <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer" class="github-pill" title="View repository on GitHub">
+          <svg class="github-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer" class="version-pill" title="View releases on GitHub">v2026.11</a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Getting Started</div>
+      <ul class="nav-list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="getting-started.html">Connection Setup</a></li>
+        <li><a href="rdp.html">Remote Desktop (RDP)</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Configuration</div>
+      <ul class="nav-list">
+        <li><a href="profiles.html">Profiles &amp; Encodings</a></li>
+        <li><a href="preferences.html" class="active">Preferences &amp; Shortcuts</a></li>
+        <li><a href="advanced.html">Advanced Usage</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Support &amp; History</div>
+      <ul class="nav-list">
+        <li><a href="faq.html">Frequently Asked Questions</a></li>
+        <li><a href="history.html">Version History</a></li>
+        <li><a href="contact.html">Credits &amp; Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-heading">Project</div>
+      <ul class="nav-list">
+        <li>
+          <a href="https://github.com/ays7/chicken" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+            GitHub Repository &nearr;
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ays7/chicken/releases" target="_blank" rel="noopener noreferrer">
+            <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.75 2a.75.75 0 01.75.75V8.69l1.72-1.72a.75.75 0 111.06 1.06l-3 3a.75.75 0 01-1.06 0l-3-3a.75.75 0 111.06-1.06l1.72 1.72V2.75A.75.75 0 017.75 2zM3 12a1 1 0 00-1 1v1a1 1 0 001 1h10a1 1 0 001-1v-1a1 1 0 00-1-1H3z"></path></svg>
+            Releases &amp; Assets &nearr;
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="content">
+    <h1>Preferences &amp; Shortcuts</h1>
+    <p>Access application preferences at any time by choosing <strong>Chicken Fork &rarr; Preferences...</strong> (or <strong>Settings...</strong>) from the application menu or by pressing <kbd>⌘</kbd> + <kbd>,</kbd>.</p>
+
+    <h2>Preferences Panels</h2>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Performance Preferences</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Frontmost Connection Performance</span>
+        <p class="ui-card-desc">Adjusts how frequently the active session window requests framebuffer updates. Keeping this slider towards the right ensures maximum responsiveness and fluid cursor movement.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Background Connection Throttling</span>
+        <p class="ui-card-desc">Controls refresh rates for inactive background sessions. Setting this slider lower conserves CPU cycles, battery, and bandwidth when multiple connections are open. To completely halt background updates until manually refreshed (via <strong>Window &rarr; Refresh</strong>), move the slider to <strong>Only Update Manually</strong>.</p>
+      </div>
+    </div>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Fullscreen Preferences</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Autoscroll Speed</span>
+        <p class="ui-card-desc">When connected to a remote display larger than your physical Mac monitor, moving your mouse to the edge of the screen causes the viewport to pan. This slider adjusts the panning velocity.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Display Scrollbars While in Fullscreen</span>
+        <p class="ui-card-desc">Controls whether explicit vertical and horizontal scrollbars remain visible while in fullscreen mode.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Display Warning Before Entering Fullscreen</span>
+        <p class="ui-card-desc">By default, Chicken Fork displays a reminder showing the keyboard shortcut to exit fullscreen. If you are familiar with the exit shortcut (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>⌃</kbd> + <kbd>`</kbd>), you can disable this dialog.</p>
+      </div>
+    </div>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <span>Keyboard Equivalents &amp; Scenarios</span>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Scenario-Based Key Mappings</span>
+        <p class="ui-card-desc">Because remote sessions capture keystrokes, Chicken Fork organizes keyboard shortcuts into three distinct window scenarios:</p>
+        <ul style="margin: 0.35rem 0 0 1.25rem; font-size: 0.9rem; color: var(--text-secondary);">
+          <li><strong>Non-Connection Window</strong>: Standard macOS shortcuts when managing bookmarks or preferences.</li>
+          <li><strong>Windowed Connection</strong>: Active when a remote session is running inside a regular window.</li>
+          <li><strong>Fullscreen Connection</strong>: Active when a remote session occupies a macOS fullscreen space.</li>
+        </ul>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Customizing a Shortcut</span>
+        <p class="ui-card-desc">Select the desired scenario from the popup menu, locate the command in the table, double-click its <strong>Shortcut</strong> cell, and press your desired key combination. To remove a shortcut, press <kbd>Space</kbd>.</p>
+      </div>
+      <div class="ui-card-row">
+        <span class="ui-card-label">Restore Defaults</span>
+        <p class="ui-card-desc">Restores the default keyboard configuration across all three scenarios.</p>
+      </div>
+    </div>
+
+    <h2>Diagnostic Logging</h2>
+    <p>Chicken Fork includes built-in diagnostic logging levels to facilitate debugging and connection troubleshooting:</p>
+
+    <div class="table-wrapper">
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Log Level</th>
+            <th>Description</th>
+            <th>Console Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>None</strong></td>
+            <td>Standard silent operational logging. Only critical failures are printed to standard output.</td>
+            <td>Errors only</td>
+          </tr>
+          <tr>
+            <td><strong>Basic</strong></td>
+            <td>Logs connection state changes, protocol handshakes (RFB version, FreeRDP connect status), and session lifecycles.</td>
+            <td>Milestone events</td>
+          </tr>
+          <tr>
+            <td><strong>Verbose</strong></td>
+            <td>Full diagnostic protocol logging including NLA authentication exchanges, DisplayControl resolution changes, and clipboard channel synchronization.</td>
+            <td>Detailed trace</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-title">💡 Viewing Diagnostic Logs</div>
+      <p>Log output is visible in real-time by launching Chicken Fork from macOS Terminal or using the macOS <strong>Console.app</strong> filtering for <code>Process: ForkOfTheChicken</code> or subsystem <code>Chicken Fork</code>.</p>
+    </div>
+
+    <div class="page-footer">
+      <div>&larr; <a href="profiles.html">Profiles &amp; Encodings</a></div>
+      <div>Chicken Fork &copy; 2022&ndash;2026 Alexey Shakula &bull; <a href="https://github.com/ays7/chicken">GitHub</a></div>
+      <div><a href="advanced.html">Advanced Usage</a> &rarr;</div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

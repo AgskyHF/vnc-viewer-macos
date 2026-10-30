@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2002-2006 Geekspiff, 2010-2011 Chicken developers, 2022-2026 ays7</string>
+	<key>CFBundleIconFile</key>
+	<string>icon.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Chicken Fork</string>
+	<key>CFBundleDisplayName</key>
+	<string>Chicken Fork</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2026.11</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rdp</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Remote Desktop Connection</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+	</array>
+	<key>CFBundleSignature</key>
+	<string>ChkV</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>VNC URL</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>vnc</string>
+				<string>rfb</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>RDP URL</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>rdp</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>2026.11</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>NSAppleScriptEnabled</key>
+	<string>YES</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Connect to VNC servers on the local network</string>
+	<key>NSMainNibFile</key>
+	<string>OSX_RFBViewer</string>
+	<key>NSPrincipalClass</key>
+	<string>MyApp</string>
+	<key>SUFeedURL</key>
+	<string>http://chicken.sourceforge.net/chicken.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
+</dict>
+</plist>
