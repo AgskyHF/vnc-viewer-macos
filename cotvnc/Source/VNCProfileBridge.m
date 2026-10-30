@@ -166,8 +166,20 @@
     for (i = 0; i < [profiles count]; i++)
     {
         VNCConnectionProfile *profile = [profiles objectAtIndex:i];
-        [self serverFromProfile:profile addToList:YES];
+        id<IServerData> server = [self serverFromProfile:profile addToList:YES];
+
+        /* The folder the connection came from becomes an address book
+           folder, so that the layout of the imported directory is kept. */
+        NSString *group = [book groupForProfile:profile];
+        if ([group length] > 0 && server != nil)
+        {
+            ServerDataManager *manager = [ServerDataManager sharedInstance];
+            [manager createGroup:group];
+            [manager moveServer:server toGroup:group];
+        }
     }
+
+    [[ServerDataManager sharedInstance] save];
 
     return imported;
 }
@@ -182,14 +194,29 @@
     VNCAddressBook *book = [[[VNCAddressBook alloc] init] autorelease];
 
     ServerDataManager *manager = [ServerDataManager sharedInstance];
-    NSEnumerator *e = [manager getServerEnumeratorForGroupName:@"Standard"];
+
+    /* Every server, including the ones in the address book folders. */
+    NSEnumerator *e = [manager getServerEnumeratorForGroupName:@"All"];
     id<IServerData> server;
 
     while ((server = [e nextObject]) != nil)
     {
         VNCConnectionProfile *profile = [self profileFromServer:server];
-        if (profile != nil)
-            [book addProfile:profile];
+        if (profile == nil)
+            continue;
+
+        [book addProfile:profile];
+
+        /* Keep the folder the connection lives in. */
+        NSString *group = [manager groupForServer:server];
+        if ([group length] > 0
+            && ![group isEqualToString:@"Standard"]
+            && ![group isEqualToString:@"All"]
+            && ![group isEqualToString:@"Rendezvous"])
+        {
+            [book addGroup:group];
+            [book setGroup:group forProfile:profile];
+        }
     }
 
     return [book exportConnectionsToDirectory:directory

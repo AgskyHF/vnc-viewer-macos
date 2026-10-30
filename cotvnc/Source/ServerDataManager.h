@@ -100,7 +100,30 @@
  */
 - (unsigned) groupCount;
 
-	/*
+/*
+ *  Creates a new, empty group. The built-in groups are "All", "Standard" and
+ *  "Rendezvous"; anything else is a user folder, as in RealVNC's address book.
+ *  @return YES if the group was created, NO if the name was empty or taken.
+ */
+- (BOOL)createGroup:(NSString*)group;
+
+/*
+ *  Moves a server into a group, creating the group if needed. Passing an
+ *  empty group name returns the server to the "Standard" group.
+ */
+- (void)moveServer:(id<IServerData>)server toGroup:(NSString*)group;
+
+/*
+ *  Restores the user folders of the address book from the preferences.
+ */
+- (void)loadUserGroups;
+
+/*
+ *  The group a server belongs to, or an empty string for "Standard".
+ */
+- (NSString*)groupForServer:(id<IServerData>)server;
+
+/*
  *  Allows access to the names of all the groups servers managed by ServerDataManager.
  *  @return The enumerator that can be used to enumerate through all group names. 
  */

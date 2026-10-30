@@ -28,6 +28,7 @@
 #define RFB_PREFS_LOCATION  @"Library/Preferences/cotvnc.prefs"
 #define RFB_SERVER_LIST     @"ServerList"
 #define RFB_GROUP_LIST		@"GroupList"
+#define RFB_SAVED_USER_GROUPS  @"SavedUserGroups"
 #define RFB_SAVED_SERVERS   @"SavedServers"
 #define RFB_SAVED_SERVERS2  @"SavedServers2"
 
@@ -178,11 +179,43 @@ static ServerDataManager* gInstance = nil;
 		{
 			[gInstance createServerByName:NSLocalizedString(@"RFBDefaultServerName", nil)];
 		}
-        
+
+		[gInstance loadUserGroups];
+
         [gInstance useRendezvous:[[PrefController sharedController] usesRendezvous]];
 	}
-	
+
 	return gInstance;
+}
+
+/* Restores the user folders of the address book and the servers in them.
+   The servers themselves are already in the standard list; this only puts
+   each of them back into the folder it came from. */
+- (void)loadUserGroups
+{
+	NSDictionary *stored = [[NSUserDefaults standardUserDefaults]
+								objectForKey:RFB_SAVED_USER_GROUPS];
+	if( nil == stored )
+		return;
+
+	NSEnumerator *groupKeys = [stored keyEnumerator];
+	NSString *group;
+
+	while( (group = [groupKeys nextObject]) != nil )
+	{
+		[self createGroup:group];
+
+		NSDictionary *servers = [stored objectForKey:group];
+		NSEnumerator *serverKeys = [servers keyEnumerator];
+		NSString *serverName;
+
+		while( (serverName = [serverKeys nextObject]) != nil )
+		{
+			id<IServerData> server = [self getServerWithName:serverName];
+			if( nil != server )
+				[self moveServer:server toGroup:group];
+		}
+	}
 }
 
 /* This is called when loading servers saved by version 2.1.x and earlier. */
@@ -264,6 +297,31 @@ static ServerDataManager* gInstance = nil;
                                               forKey:RFB_SAVED_SERVERS2];
 }
 
+/* The user folders ("groups") and the servers in them are stored separately
+   from the built-in groups, so that the folder layout of the address book
+   survives a restart. */
+- (void)saveUserGroups
+{
+    NSMutableDictionary *groups = [NSMutableDictionary dictionary];
+    NSEnumerator *groupKeys = [mGroups keyEnumerator];
+    NSString *group;
+
+    while( (group = [groupKeys nextObject]) != nil )
+    {
+        if( [group isEqualToString:@"All"]
+         || [group isEqualToString:@"Standard"]
+         || [group isEqualToString:@"Rendezvous"] )
+            continue;
+
+        NSMutableDictionary *servers = [NSMutableDictionary dictionary];
+        [self putServers:[mGroups objectForKey:group] inDictionary:servers];
+        [groups setObject:servers forKey:group];
+    }
+
+    [[NSUserDefaults standardUserDefaults] setObject:groups
+                                              forKey:RFB_SAVED_USER_GROUPS];
+}
+
 - (void)saveRendezvousServers
 {
     NSDictionary            *stored;
@@ -281,6 +339,7 @@ static ServerDataManager* gInstance = nil;
 {
     [self saveStandardServers];
     [self saveRendezvousServers];
+    [self saveUserGroups];
 }
 
 - (void)saveRendezvousServer: (PersistentServer *)server
@@ -336,6 +395,83 @@ static ServerDataManager* gInstance = nil;
 	return (unsigned int)[mGroups count];
 }
 
+- (BOOL)createGroup:(NSString*)group
+{
+	if( nil == group || 0 == [group length] )
+		return NO;
+
+	if( [mGroups objectForKey:group] )
+		return NO;
+
+	[mGroups setObject:[NSMutableDictionary dictionaryWithCapacity:1] forKey:group];
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:ServerListChangeMsg
+														object:self];
+	return YES;
+}
+
+- (NSString*)groupForServer:(id<IServerData>)server
+{
+	if( nil == server )
+		return @"";
+
+	NSEnumerator* groupKeys = [mGroups keyEnumerator];
+	NSString* name;
+
+	while( name = [groupKeys nextObject] )
+	{
+		/* "All" holds every server and is not a real folder. */
+		if( [name isEqualToString:@"All"] )
+			continue;
+		if( [[mGroups objectForKey:name] objectForKey:[server name]] )
+			return name;
+	}
+
+	return @"";
+}
+
+- (void)moveServer:(id<IServerData>)server toGroup:(NSString*)group
+{
+	if( nil == server )
+		return;
+
+	NSString* target = (nil == group) ? @"Standard" : group;
+
+	if( ![target isEqualToString:@"All"] && ![target isEqualToString:@"Rendezvous"] )
+	{
+		if( nil == [mGroups objectForKey:target] )
+		{
+			[mGroups setObject:[NSMutableDictionary dictionaryWithCapacity:1] forKey:target];
+		}
+	}
+
+	/* Take the server out of the folder it was in. */
+	NSEnumerator* groupKeys = [mGroups keyEnumerator];
+	NSString* name;
+	while( name = [groupKeys nextObject] )
+	{
+		if( [name isEqualToString:@"All"] )
+			continue;
+		[[mGroups objectForKey:name] removeObjectForKey:[server name]];
+	}
+
+	if( [target isEqualToString:@"Standard"] )
+	{
+		[[mGroups objectForKey:@"Standard"] setObject:server forKey:[server name]];
+	}
+	else if( [target isEqualToString:@"Rendezvous"] )
+	{
+		/* Rendezvous servers are discovered, not stored. */
+	}
+	else
+	{
+		[[mGroups objectForKey:target] setObject:server forKey:[server name]];
+	}
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:ServerListChangeMsg
+														object:self];
+}
+
 - (NSEnumerator*) getGroupNameEnumerator
 {
 	return [mGroups keyEnumerator];
@@ -343,16 +479,19 @@ static ServerDataManager* gInstance = nil;
 
 - (NSEnumerator*) getServerEnumeratorForGroupName:(NSString*)group;
 {
-	if( [group compare:@"Standard"] )
-	{
-		return [mServers objectEnumerator];
-	}
-	else if( [group compare:@"Rendezvous"] )
-	{
+	if( nil == group )
 		return nil;
-	}
-	
-	return nil;
+
+	if( [group isEqualToString:@"All"] )
+		return [mServers objectEnumerator];
+
+	if( [group isEqualToString:@"Standard"] )
+		return [[mGroups objectForKey:@"Standard"] objectEnumerator];
+
+	if( [group isEqualToString:@"Rendezvous"] )
+		return nil;
+
+	return [[mGroups objectForKey:group] objectEnumerator];
 }
 
 - (id<IServerData>)getServerWithName:(NSString*)name
