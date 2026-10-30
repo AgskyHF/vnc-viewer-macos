@@ -218,9 +218,13 @@
 
 - (IBAction)exportConnections:(id)sender
 {
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setCanCreateDirectories:YES];
+    /* NSSavePanel cannot choose directories, so the export target is picked
+       with an open panel that only accepts folders. */
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setCanChooseDirectories:YES];
+    [panel setCanChooseFiles:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setCanCreateDirectories:YES];
     [panel setMessage:@"Choose a folder to export the address book to."];
     [panel setPrompt:@"Export"];
 
@@ -261,7 +265,8 @@
         [alert addButtonWithTitle:@"Show in Finder"];
         [alert addButtonWithTitle:@"OK"];
         if ([alert runModal] == NSAlertFirstButtonReturn)
-            [[NSWorkspace sharedWorkspace] selectURL:[panel URL]];
+            [[NSWorkspace sharedWorkspace] selectFile:directory
+                                  inFileViewerRootedAtPath:directory];
     }
     else
     {

@@ -85,7 +85,7 @@ static VNCAddressBook * gSharedAddressBook = nil;
 
 - (unsigned)count
 {
-    return [_profiles count];
+    return (unsigned)[_profiles count];
 }
 
 - (VNCConnectionProfile *)profileAtIndex:(unsigned)index
@@ -515,7 +515,6 @@ static VNCAddressBook * gSharedAddressBook = nil;
     /* Second pass with a delegate to collect the values. */
     NSMutableArray *files = [NSMutableArray array];
     NSMutableDictionary *current = nil;
-    NSString *currentParamName = nil;
     NSUInteger index = 0;
 
     while (index < [xml length])
