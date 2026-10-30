@@ -16,14 +16,12 @@ permissions:
 
 jobs:
   release:
-    name: Build, Sign, Notarize and Publish Release DMG
+    name: Build and Publish Release DMG
     runs-on: macos-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: recursive
 
       - name: Build VNC Viewer App
         run: |
@@ -39,25 +37,93 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             clean build
 
-      - name: Sign, Package, Notarize and Staple DMG
+      # Signing and notarisation need an Apple Developer certificate and an
+      # API key, which are not available here. Without them the release is
+      # published as an ad-hoc signed build; the user has to confirm the
+      # first launch (right-click -> Open -> Open).
+      - name: Check whether signing secrets are configured
+        id: signing
+        env:
+          HAS_CERT: ${{ secrets.MACOS_CERTIFICATE_P12 != '' }}
+          HAS_KEY: ${{ secrets.APPLE_API_KEY_CONTENT != '' }}
+        run: |
+          if [ "$HAS_CERT" = "true" ] && [ "$HAS_KEY" = "true" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "Signing secrets found - the build will be signed and notarised."
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "No signing secrets - publishing an ad-hoc signed build."
+          fi
+
+      - name: Sign, Notarise and Package
         id: package
+        if: steps.signing.outputs.available == 'true'
         env:
           MACOS_CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
           MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
           MACOS_SIGNING_IDENTITY: ${{ secrets.MACOS_SIGNING_IDENTITY }}
           APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY_CONTENT }}
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
-          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_API_KEY_ISSUER: ${{ secrets.APPLE_API_KEY_ISSUER }}
         run: |
           ./scripts/sign_and_notarize.sh
+
+      - name: Package without notarisation
+        id: package_unsigned
+        if: steps.signing.outputs.available != 'true'
+        run: |
+          set -euo pipefail
+
+          APP_PATH="$(find ./DerivedData -name "VNC Viewer.app" -type d -maxdepth 4 | head -n 1)"
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: VNC Viewer.app not found in DerivedData!" >&2
+            exit 1
+          fi
+          echo "Found VNC Viewer.app at: $APP_PATH"
+
+          # Ad-hoc signature with the hardened runtime.
+          codesign --force --deep --options runtime -s - \
+            --entitlements cotvnc/Resources/ChickenFork.entitlements "$APP_PATH"
+          codesign --verify --deep --strict "$APP_PATH"
+
+          VERSION="$(defaults read "$APP_PATH/Contents/Info.plist" CFBundleShortVersionString 2>/dev/null || echo "1.0")"
+          DMG_PATH="dist/VNC-Viewer-${VERSION}.dmg"
+          mkdir -p dist
+
+          STAGING_DIR="dmg_staging"
+          rm -rf "$STAGING_DIR"
+          mkdir -p "$STAGING_DIR"
+          cp -R "$APP_PATH" "$STAGING_DIR/"
+          ln -s /Applications "$STAGING_DIR/Applications"
+
+          rm -f "$DMG_PATH"
+          hdiutil create \
+            -volname "VNC Viewer" \
+            -srcfolder "$STAGING_DIR" \
+            -ov \
+            -format UDZO \
+            "$DMG_PATH"
+          rm -rf "$STAGING_DIR"
+
+          # The image must be mountable.
+          MOUNT_DIR="$(mktemp -d)"
+          hdiutil attach "$DMG_PATH" -mountpoint "$MOUNT_DIR" -nobrowse -readonly
+          ls -la "$MOUNT_DIR"
+          hdiutil detach "$MOUNT_DIR"
+          rmdir "$MOUNT_DIR"
+
+          ls -lh "$DMG_PATH"
+          shasum -a 256 "$DMG_PATH"
+          echo "dmg_path=$DMG_PATH" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Publish GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EVENT_TAG: ${{ github.ref_name }}
-          INPUT_TAG: ${{ github.event.inputs.tag_name }}
-          DMG_PATH: ${{ steps.package.outputs.dmg_path }}
-          VERSION: ${{ steps.package.outputs.version }}
+          INPUT_TAG: ${{ inputs.tag_name }}
+          DMG_PATH: ${{ steps.package.outputs.dmg_path || steps.package_unsigned.outputs.dmg_path }}
+          VERSION: ${{ steps.package.outputs.version || steps.package_unsigned.outputs.version }}
         run: |
           TAG_NAME="${INPUT_TAG}"
           if [ -z "$TAG_NAME" ]; then
