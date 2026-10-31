@@ -152,7 +152,7 @@
     [panel setCanChooseDirectories:YES];
     [panel setCanChooseFiles:YES];
     [panel setAllowsMultipleSelection:YES];
-    [panel setMessage:@"Choose RealVNC connection files or a folder of them to import."];
+    [panel setMessage:@"Choose RealVNC connection files, an XML address book, or a folder of them to import."];
     [panel setPrompt:@"Import"];
 
     if ([panel runModal] != NSModalResponseOK)
@@ -167,9 +167,18 @@
     while ((url = [e nextObject]) != nil)
     {
         NSString *path = [url path];
+        NSString *extension = [[path lastPathComponent] pathExtension];
 
-        /* A .vnc file is a single connection; a folder may hold many. */
-        if ([[[path lastPathComponent] pathExtension] caseInsensitiveCompare:@"vnc"] == NSOrderedSame)
+        /* A .vnc file is a single connection; a folder may hold many.
+           A .xml file is a RealVNC XML address book with all of them. */
+        if ([extension caseInsensitiveCompare:@"xml"] == NSOrderedSame)
+        {
+            int imported = [VNCProfileBridge importAddressBookFromXMLFile:path
+                                                                    errors:&errors];
+            if (imported > 0)
+                total += imported;
+        }
+        else if ([extension caseInsensitiveCompare:@"vnc"] == NSOrderedSame)
         {
             NSMutableArray *fileErrors = [NSMutableArray array];
             int imported = [VNCProfileBridge importConnectionsFromDirectory:
@@ -255,7 +264,6 @@
     BOOL ok = [VNCProfileBridge exportConnectionsToDirectory:directory
                                            includePasswords:includePasswords
                                                      errors:&errors];
-
     NSAlert *alert = [[NSAlert alloc] init];
     if (ok)
     {
@@ -274,6 +282,68 @@
         [alert setInformativeText:([errors count] > 0)
             ? [[errors objectAtIndex:0] description]
             : @"Some connections could not be written."];
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+    }
+    [alert release];
+}
+
+- (IBAction)exportAddressBookAsXML:(id)sender
+{
+    /* Export the whole address book as one RealVNC XML file. RealVNC can
+       read this format back, so it is the way to move a list of connections
+       between machines. */
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setCanCreateDirectories:YES];
+    [panel setAllowedFileTypes:@[@"xml"]];
+    [panel setNameFieldStringValue:@"VNC Address Book.xml"];
+    [panel setMessage:@"Save the address book as a RealVNC XML file."];
+    [panel setPrompt:@"Export"];
+
+    if ([panel runModal] != NSModalResponseOK)
+        return;
+
+    NSString *path = [[panel URL] path];
+    if (path == nil)
+        return;
+
+    NSAlert *passwordAlert = [[NSAlert alloc] init];
+    [passwordAlert setMessageText:@"Include passwords in the exported address book?"];
+    [passwordAlert setInformativeText:@"Passwords are stored in your keychain. "
+        @"An address book with passwords should be kept private."];
+    [passwordAlert addButtonWithTitle:@"Include Passwords"];
+    [passwordAlert addButtonWithTitle:@"Without Passwords"];
+    [passwordAlert addButtonWithTitle:@"Cancel"];
+
+    NSModalResponse choice = [passwordAlert runModal];
+    [passwordAlert release];
+
+    if (choice != NSAlertFirstButtonReturn && choice != NSAlertSecondButtonReturn)
+        return;
+
+    BOOL includePasswords = (choice == NSAlertFirstButtonReturn);
+
+    NSString *error = nil;
+    BOOL ok = [VNCProfileBridge exportAddressBookToXMLFile:path
+                                          includePasswords:includePasswords
+                                                    error:&error];
+
+    NSAlert *alert = [[NSAlert alloc] init];
+    if (ok)
+    {
+        [alert setMessageText:@"Address book exported"];
+        [alert setInformativeText:[NSString stringWithFormat:@"Saved to %@", path]];
+        [alert addButtonWithTitle:@"Show in Finder"];
+        [alert addButtonWithTitle:@"OK"];
+        if ([alert runModal] == NSAlertFirstButtonReturn)
+            [[NSWorkspace sharedWorkspace] selectFile:path
+                                  inFileViewerRootedAtPath:path];
+    }
+    else
+    {
+        [alert setMessageText:@"Export failed"];
+        [alert setInformativeText:(error != nil) ? error
+                              : @"The address book could not be written."];
         [alert addButtonWithTitle:@"OK"];
         [alert runModal];
     }

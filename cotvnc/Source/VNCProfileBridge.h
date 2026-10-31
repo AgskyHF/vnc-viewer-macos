@@ -38,9 +38,20 @@
 /* Import a single RealVNC connection file into the saved server list. */
 + (BOOL)importConnectionFromFile:(NSString *)path error:(NSString **)error;
 
+/* Import a RealVNC XML address book into the saved server list.
+   Returns the number of connections imported, or -1 on failure. */
++ (int)importAddressBookFromXMLFile:(NSString *)path
+                              errors:(NSMutableArray **)errors;
+
 /* Export the saved server list into a directory of RealVNC connection files. */
 + (BOOL)exportConnectionsToDirectory:(NSString *)directory
                      includePasswords:(BOOL)includePasswords
                                errors:(NSMutableArray **)errors;
+
+/* Export the saved server list as a RealVNC XML address book file.
+   Returns NO on failure. */
++ (BOOL)exportAddressBookToXMLFile:(NSString *)path
+                   includePasswords:(BOOL)includePasswords
+                             error:(NSString **)error;
 
 @end

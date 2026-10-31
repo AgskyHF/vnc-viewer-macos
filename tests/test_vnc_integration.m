@@ -220,6 +220,52 @@ int main(int argc, const char *argv[])
             check([contents2 rangeOfString:@"Password=secret123"].location != NSNotFound,
                   @"password present in the password export");
 
+        printf("test: the XML address book round trips\n");
+        NSString *xmlPath = [gTempDir stringByAppendingPathComponent:@"book.xml"];
+        NSString *xmlError = nil;
+        check([VNCProfileBridge exportAddressBookToXMLFile:xmlPath
+                                          includePasswords:YES
+                                                    error:&xmlError],
+              @"XML address book exported");
+        check(xmlError == nil, @"no XML export error");
+        NSString *xmlText = [NSString stringWithContentsOfFile:xmlPath
+                                                       encoding:NSUTF8StringEncoding
+                                                          error:NULL];
+        check(xmlText != nil, @"XML file is readable");
+        if (xmlText)
+        {
+            check([xmlText rangeOfString:@"<realvnc-address-book>"].location != NSNotFound,
+                  @"RealVNC address book root element");
+            check([xmlText rangeOfString:@"name=\"Host\""].location != NSNotFound,
+                  @"Host parameter present");
+            check([xmlText rangeOfString:@"Password=secret123"].location != NSNotFound
+                  || [xmlText rangeOfString:@"name=\"Password\""].location != NSNotFound,
+                  @"password parameter present");
+        }
+
+        printf("test: importing the XML address book back\n");
+        {
+            /* Import into a fresh state, so the counts are unambiguous. */
+            NSString *domain = [[NSProcessInfo processInfo] processName];
+            [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domain];
+
+            NSMutableArray *xmlErrors = [NSMutableArray array];
+            int xmlImported = [VNCProfileBridge importAddressBookFromXMLFile:xmlPath
+                                                                        errors:&xmlErrors];
+            check(xmlImported == 4, @"four connections imported from XML");
+            check([xmlErrors count] == 0, @"no XML import errors");
+
+            NSArray *xmlNames = serverNames();
+            check([xmlNames containsObject:@"Workstation"], @"Workstation from XML");
+            check([xmlNames containsObject:@"Office server"], @"Office server from XML");
+            check([xmlNames containsObject:@"Secret"], @"Secret from XML");
+
+            id<IServerData> wsXml = findServer(@"Workstation");
+            check(wsXml != nil, @"Workstation found after XML import");
+            if (wsXml)
+                checkEqualStr([wsXml host], @"192.168.1.50", @"host from XML import");
+        }
+
         printf("test: a broken file is reported, not fatal\n");
         NSString *brokenDir = [gTempDir stringByAppendingPathComponent:@"broken"];
         [[NSFileManager defaultManager] createDirectoryAtPath:brokenDir

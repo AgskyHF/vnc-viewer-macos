@@ -184,6 +184,112 @@
     return imported;
 }
 
++ (int)importAddressBookFromXMLFile:(NSString *)path
+                              errors:(NSMutableArray **)errors
+{
+    if (path == nil)
+        return -1;
+
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    if (data == nil)
+    {
+        if (errors != nil && *errors != nil)
+            [*errors addObject:[NSString stringWithFormat:@"Cannot read %@", path]];
+        return -1;
+    }
+
+    VNCAddressBook *book = [[[VNCAddressBook alloc] init] autorelease];
+
+    NSString *parseError = nil;
+    if (![book importFromXMLData:data error:&parseError])
+    {
+        if (errors != nil && *errors != nil)
+            [*errors addObject:[NSString stringWithFormat:@"%@: %@",
+                                [path lastPathComponent],
+                                parseError ? parseError : @"Cannot read the address book"]];
+        return -1;
+    }
+
+    /* Move the imported connections into the app's own server list, keeping
+       the folder each one came from. */
+    NSArray *profiles = [book profiles];
+    unsigned i;
+    int imported = 0;
+    for (i = 0; i < [profiles count]; i++)
+    {
+        VNCConnectionProfile *profile = [profiles objectAtIndex:i];
+        id<IServerData> server = [self serverFromProfile:profile addToList:YES];
+        if (server == nil)
+            continue;
+
+        NSString *group = [book groupForProfile:profile];
+        if ([group length] > 0)
+        {
+            ServerDataManager *manager = [ServerDataManager sharedInstance];
+            [manager createGroup:group];
+            [manager moveServer:server toGroup:group];
+        }
+        imported++;
+    }
+
+    [[ServerDataManager sharedInstance] save];
+
+    return imported;
+}
+
++ (BOOL)exportAddressBookToXMLFile:(NSString *)path
+                   includePasswords:(BOOL)includePasswords
+                             error:(NSString **)error
+{
+    if (path == nil)
+    {
+        if (error) *error = @"No file given";
+        return NO;
+    }
+
+    VNCAddressBook *book = [[[VNCAddressBook alloc] init] autorelease];
+
+    ServerDataManager *manager = [ServerDataManager sharedInstance];
+
+    NSEnumerator *e = [manager getServerEnumeratorForGroupName:@"All"];
+    id<IServerData> server;
+    while ((server = [e nextObject]) != nil)
+    {
+        VNCConnectionProfile *profile = [self profileFromServer:server];
+        if (profile == nil)
+            continue;
+
+        [book addProfile:profile];
+
+        /* Keep the folder the connection lives in. */
+        NSString *group = [manager groupForServer:server];
+        if ([group length] > 0
+            && ![group isEqualToString:@"Standard"]
+            && ![group isEqualToString:@"All"]
+            && ![group isEqualToString:@"Rendezvous"])
+        {
+            [book addGroup:group];
+            [book setGroup:group forProfile:profile];
+        }
+    }
+
+    NSData *xml = [book xmlRepresentationWithPasswords:includePasswords];
+    if (xml == nil)
+    {
+        if (error) *error = @"Could not serialise the address book";
+        return NO;
+    }
+
+    if (![xml writeToFile:path atomically:YES])
+    {
+        if (error) *error = [NSString stringWithFormat:@"Cannot write %@", path];
+        return NO;
+    }
+
+    if (error) *error = nil;
+    return YES;
+}
+
 + (BOOL)exportConnectionsToDirectory:(NSString *)directory
                      includePasswords:(BOOL)includePasswords
                                errors:(NSMutableArray **)errors

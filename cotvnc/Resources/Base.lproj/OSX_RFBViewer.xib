@@ -99,6 +99,11 @@
                                     <action selector="exportConnections:" target="1367" id="2003"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Export Address Book as XML…" id="2007">
+                                <connections>
+                                    <action selector="exportAddressBookAsXML:" target="1367" id="2006"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="2005">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>

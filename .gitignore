@@ -27,3 +27,10 @@ cotvnc/freerdp/lib/libwinpr-tools3.a
 
 # Local Linux test bench (GNUstep runtime), not part of the app
 .objcbench/
+
+# RealVNC connection files and address books — they contain hosts, UUIDs and
+# encrypted passwords, and must never be committed.
+*.vnc
+*.vnc.*
+vnc-address-book*.xml
+realvnc-address-book*.xml

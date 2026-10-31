@@ -28,7 +28,18 @@ OBJC_SRCS=()
 SWIFT_SRCS=()
 while read -r f; do
     case "$f" in
-        *.swift) SWIFT_SRCS+=("$SRC/$f") ;;
+        *.swift)
+            # The CryptoSwift sources live in their own subdirectory; the
+            # Xcode project lists them by bare file name.
+            if [ -f "$SRC/$f" ]; then
+                SWIFT_SRCS+=("$SRC/$f")
+            elif [ -f "$SRC/CryptoSwift/Sources/CryptoSwift/CS_BigInt/$f" ]; then
+                SWIFT_SRCS+=("$SRC/CryptoSwift/Sources/CryptoSwift/CS_BigInt/$f")
+            else
+                echo "Swift source not found: $f" >&2
+                exit 1
+            fi
+            ;;
         *)       OBJC_SRCS+=("$SRC/$f") ;;
     esac
 done < "$BUILD/sources.txt"
@@ -80,12 +91,30 @@ for f in icon.icns cursors.plist rfbCursor.tiff rfbCursor2.tiff rfbCursor3.tiff 
     [ -f "$ROOT/cotvnc/Resources/$f" ] && cp "$ROOT/cotvnc/Resources/$f" "$APP/Contents/Resources/"
 done
 
-# Compiled nibs: ibtool is not part of the Command Line Tools, so reuse the
-# ones from an installed build of the same sources when available.
-INSTALLED_NIBS="/Applications/VNC Viewer.app/Contents/Resources/Base.lproj"
-if [ -d "$INSTALLED_NIBS" ]; then
-    cp "$INSTALLED_NIBS"/*.nib "$APP/Contents/Resources/Base.lproj/" 2>/dev/null || true
-fi
+# Compiled nibs: ibtool lives in /usr/bin even without a full Xcode install,
+# so the xibs can be compiled here. Fall back to the nibs of an installed
+# build when ibtool is missing.
+compile_nibs() {
+    local xib_dir="$ROOT/cotvnc/Resources/Base.lproj"
+    local out_dir="$APP/Contents/Resources/Base.lproj"
+    mkdir -p "$out_dir"
+    local ok=1
+    for xib in "$xib_dir"/*.xib; do
+        [ -f "$xib" ] || continue
+        if ! ibtool --errors --warnings --notices \
+                --minimum-deployment-target 11.0 \
+                --compile "$out_dir/$(basename "${xib%.xib}").nib" "$xib" \
+                >/dev/null 2>&1; then
+            ok=0
+        fi
+    done
+    if [ "$ok" -eq 0 ]; then
+        echo "ibtool failed, falling back to the nibs of the installed build" >&2
+        local installed="/Applications/VNC Viewer.app/Contents/Resources/Base.lproj"
+        [ -d "$installed" ] && cp "$installed"/*.nib "$out_dir/" 2>/dev/null || true
+    fi
+}
+compile_nibs
 
 codesign -s - --force --deep "$APP"
 
